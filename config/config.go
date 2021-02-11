@@ -1,10 +1,10 @@
 package config
 
 import (
-	"log"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/lexkong/log"
 	"github.com/spf13/viper"
 )
 
@@ -22,7 +22,7 @@ func Init(name string) error {
 	if err := c.initConfig(); err != nil {
 		return err
 	}
-
+	c.initLog()
 	c.watchConfig()
 
 	return nil
@@ -44,7 +44,7 @@ func (c *Config) initConfig() error {
 	viper.AutomaticEnv()
 	// 设置环境变量前缀
 	viper.SetEnvPrefix("TINY_HTTP_SERVER")
-	replacer := stirngs.NewReplacer(".", "_")
+	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
 	// 解析配置文件
 	if err := viper.ReadInConfig(); err != nil {
@@ -54,10 +54,25 @@ func (c *Config) initConfig() error {
 	return nil
 }
 
+func (c *Config) initLog() {
+	cfg := log.PassLagerCfg{
+		Writers:		viper.GetString("log.writers"),
+		LoggerLevel:	viper.GetString("log.logger_level"),
+		LoggerFile:		viper.GetString("log.logger_file"),
+		LogFormatText:	viper.GetBool("log.log_format_text"),
+		RollingPolicy:	viper.GetString("log.rollingPolicy"),
+		LogRotateDate:	viper.GetInt("log.log_rotate_date"),
+		LogRotateSize:	viper.GetInt("log.log_rotate_size"),
+		LogBackupCount:	viper.GetInt("log.log_backup_count"),
+	}
+
+	log.InitWithConfig(&cfg)
+}
+
 // 监听配置文件并热加载
 func (c *Config) watchConfig() {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		log.Printf("Config file changed: %s", e.Name)
+		log.Infof("Config file changed: %s", e.Name)
 	})
 }

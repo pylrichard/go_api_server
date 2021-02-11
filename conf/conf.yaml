@@ -8,3 +8,22 @@ name: tiny_http_server
 url: http://127.0.0.1:8080
 # pingServer()最大重试次数
 max_ping_count: 6
+log:
+  # file将日志记录到logger_file，stdout将日志记录到标准输出
+  # 也可以两者同时选择
+  writers: file,stdout
+  # 日志级别：DEBUG、INFO、WARN、ERROR、FATAL
+  logger_level: DEBUG
+  logger_file: log/tiny_http_server.log
+  # 日志输出格式：JSON/PlainText
+  # true输出PlainText格式，false输出JSON格式
+  log_format_text: false
+  # 日志转存策略：daily/size
+  # daily根据天进行转存，size根据大小进行转存
+  rollingPolicy: size
+  # 日志转存时间，配合rollingPolicy: daily使用
+  log_rotate_date: 1
+  # 日志转存大小，配合rollingPolicy: size使用
+  log_rotate_size: 1
+  # 当日志文件达到转存标准时，会将该日志文件进行压缩备份，这里指定备份文件的最大个数
+  log_backup_count: 7
