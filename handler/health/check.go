@@ -37,7 +37,7 @@ func DiskCheck(c *gin.Context) {
 	totalGB := int(u.Total) / GB
 	usedPercent := int(u.UsedPercent)
 	status := http.StatusOK
-	tips := "OK"
+	tips := "Ok"
 
 	if usedPercent >= 90 {
 		status = http.StatusTooManyRequests

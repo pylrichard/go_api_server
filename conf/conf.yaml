@@ -1,0 +1,10 @@
+# 运行模式:debug、release、test
+runmode: debug
+# HTTP端口
+addr: 8080
+# 可执行文件名
+name: tiny_http_server
+# pingServer()发送ping请求的ip:port
+url: http://127.0.0.1:8080
+# pingServer()最大重试次数
+max_ping_count: 6
