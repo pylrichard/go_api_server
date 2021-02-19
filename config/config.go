@@ -54,6 +54,7 @@ func (c *Config) initConfig() error {
 	return nil
 }
 
+// 初始化日志配置
 func (c *Config) initLog() {
 	cfg := log.PassLagerCfg{
 		Writers:		viper.GetString("log.writers"),
