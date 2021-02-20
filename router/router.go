@@ -5,6 +5,7 @@ import (
 
 	"./middleware"
 	"../handler/health"
+	"../handler/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +21,11 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.NoRoute(func(c *gin.Context) {
 		c.String(http.StatusNotFound, "The incorrect API route")
 	})
-	// health check handlers
+	// User Handler
+	u := g.Group("/v1/user") {
+		u.POST("", user.Create)
+	}
+	// Health check handlers
 	hcHandlers := g.Group("/health") {
 		hcHandlers.GET("/check", health.Check)
 		hcHandlers.GET("/disk", health.DiskCheck)
