@@ -23,7 +23,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	})
 	// User Handler
 	u := g.Group("/v1/user") {
-		u.POST("", user.Create)
+		u.POST("/:user_name", user.Create)
 	}
 	// Health check handlers
 	hcHandlers := g.Group("/health") {
