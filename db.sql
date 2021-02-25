@@ -14,7 +14,7 @@ CREATE TABLE `user_info` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
   KEY `idx_user_info_deleted_time` (`deleted_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `user_info` WRITE;
 INSERT INTO `user_info` VALUES (0, 'admin', '$2a$10$veGcArz47VGj7l9xN7g2iuT9TF21jLI1YGXarGzvARNdnt4inC9PG', '2018-05-27 16:25:33', '2018-05-27 16:25:33', NULL);

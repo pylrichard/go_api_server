@@ -3,9 +3,9 @@ package router
 import (
 	"net/http"
 
-	"./middleware"
-	"../handler/health"
-	"../handler/user"
+	"go/tiny_http_server/router/middleware"
+	"go/tiny_http_server/handler/health"
+	"go/tiny_http_server/handler/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,14 +23,18 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	})
 	// User Handler
 	u := g.Group("/v1/user") {
-		u.POST("/:user_name", user.Create)
+		u.POST("", user.Create)
+		u.DELETE("/:id", user.Delete)
+		u.PUT("/:id", user.Update)
+		u.GET("", user.List)
+		u.GET("/:user_name", user.Get)
 	}
 	// Health check handlers
-	hcHandlers := g.Group("/health") {
-		hcHandlers.GET("/check", health.Check)
-		hcHandlers.GET("/disk", health.DiskCheck)
-		hcHandlers.GET("/cpu", health.CPUCheck)
-		hcHandlers.GET("/mem", health.MemCheck)
+	h := g.Group("/health") {
+		h.GET("/check", health.Check)
+		h.GET("/disk", health.DiskCheck)
+		h.GET("/cpu", health.CPUCheck)
+		h.GET("/mem", health.MemCheck)
 	}
 
 	return g

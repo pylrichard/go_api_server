@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"./config"
-	"./router"
+	"go/tiny_http_server/config"
+	"go/tiny_http_server/router"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	"strconv"
 
 	"go/tiny_http_server/handler"
 	"go/tiny_http_server/model"
@@ -13,19 +13,18 @@ import (
 	"github.com/lexkong/log/lager"
 )
 
-// Create 创建一个新用户
-func Create(c *gin.Context) {
-	log.Info("User Create() called.", lager.Data{"X-Request-Id": util.GetReqID(c)})
-	var req CreateRequest
-	if err := c.Bind(&req); err != nil {
+// Update 更新用户
+func Update(c *gin.Context) {
+	log.Info("Update function called.", lager.Data{"X-Request-Id": util.GetReqID(c)})
+	userID, _ := strconv.Atoi(c.Param("id"))
+
+	var u model.UserModel
+	if err := c.Bind(&u); err != nil {
 		SendResponse(c, errno.ErrBind, nil)
 		return
 	}
-
-	u := model.UserModel{
-		UserName: req.UserName,
-		Password: req.Password,
-	}
+	// 根据Id更新用户
+	u.Id = uint64(userID)
 	if err := u.Validate(); err != nil {
 		SendResponse(c, errno.ErrValidation, nil)
 		return
@@ -34,13 +33,9 @@ func Create(c *gin.Context) {
 		SendResponse(c, errno.ErrEncrypt, nil)
 		return
 	}
-	if err := u.Create(); err != nil {
+	if err := u.Update(); err != nil {
 		SendResponse(c, errno.ErrDatabase, nil)
 		return
 	}
-
-	resp := CreateResponse{
-		UserName: req.UserName,
-	}
-	SendResponse(c, nil, resp)
+	SendResponse(c, nil, nil)
 }

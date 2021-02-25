@@ -41,7 +41,7 @@ func (err *Err) Addf(format string, args ...interface{}) Err {
 
 // Error 返回错误格式化信息
 func (err *Err) Error() string {
-	return fmt.Sprintf("Err - code: %d, message: %s, error: %", err.Code, err.Msg, err.Err)
+	return fmt.Sprintf("Err - code: %d, msg: %s, error: %", err.Code, err.Msg, err.Err)
 }
 
 // IsErrUserNotFound 判断是否属于ErrUserNotFound类型错误
