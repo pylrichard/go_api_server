@@ -7,6 +7,7 @@ import (
 
 	"go/tiny_http_server/config"
 	"go/tiny_http_server/router"
+	"go/tiny_http_server/router/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lexkong/log"
@@ -29,11 +30,11 @@ func main() {
 
 	gin.SetMode(viper.GetString("runmode"))
 	g := gin.New()
-	middlewares := []gin.HandlerFunc{}
 	router.Load(
 		g,
 
-		middlewares...,
+		middleware.Logging(),
+		middleware.RequestID(),
 	)
 
 	// Ping the server to make sure the router is working
