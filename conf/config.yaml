@@ -38,3 +38,8 @@ docker_db:
   addr: 192.168.0.2:3306
   user_name: root
   pwd: Pyl123456
+tls:
+  addr: :8081
+  cert: conf/server.crt
+  key: conf/server.key
+jwt_secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5
