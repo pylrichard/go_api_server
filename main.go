@@ -1,11 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"os"
 	"time"
 
+	v "go/tiny_http_server/pkg/version"
 	"go/tiny_http_server/config"
+	"go/tiny_http_server/model"
 	"go/tiny_http_server/router"
 	"go/tiny_http_server/router/middleware"
 
@@ -17,14 +22,28 @@ import (
 
 var (
 	cfg = pflag.StringP("config", "c", "", "tiny_http_server config file path")
+	version = pflag.BoolP("version", "v", false, "show version info")
 )
 
 func main() {
 	pflag.Parse()
 
+	if *version {
+		v := v.Get()
+		marshalled, err := json.MarshalIndent(&v, "", " ")
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println(string(marshalled))
+		
+		return
+	}
+
 	if err := config.Init(*cfg); err != nil {
 		panic(err)
 	}
+
 	model.DB.Init()
 	defer model.DB.Close()
 
@@ -45,6 +64,7 @@ func main() {
 		log.Info("The router has been deployed successfully.")
 	}()
 
+	// Start to listening the incoming requests
 	cert := viper.GetString("tls.cert")
 	key := viper.GetString("tls.key")
 	if cert != "" && key != "" {
