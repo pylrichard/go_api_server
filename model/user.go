@@ -26,17 +26,36 @@ func (u *UserModel) Create() error {
 	return DB.Self.Create(&u).Error
 }
 
+// Update 更新用户
+func (u *UserModel) Update() error {
+	return DB.Self.Save(u).Error
+}
+
+// Compare 比较用户密码
+func (u *UserModel) Compare(pwd string) error {
+	return auth.Compare(u.Password, pwd)
+}
+
+// Encrypt 对用户密码进行加密
+func (u *UserModel) Encrypt() (err error) {
+	u.Password, err = auth.Encrypt(u.Password)
+
+	return err
+}
+
+// Validate 对字段进行验证
+func (u *UserModel) Validate() error {
+	validate := validator.New()
+
+	return validate.Struct(u)
+}
+
 // DeleteUser 根据id删除相应用户
 func DeleteUser(id uint64) error {
 	user := UserModel{}
 	user.BaseModel.Id = id
 
 	return DB.Self.Delete(&user).Error
-}
-
-// Update 更新用户
-func (u *UserModel) Update() error {
-	return DB.Self.Save(u).Error
 }
 
 // GetUser 根据id获取用户
@@ -65,21 +84,3 @@ func ListUser(name string, offset, limit int) ([]*UserModel, uint64, error) {
 	return users, count, nil
 }
 
-// Compare 比较用户密码
-func (u *UserModel) Compare(pwd string) error {
-	return auth.Compare(u.Password, pwd)
-}
-
-// Encrypt 对用户密码进行加密
-func (u *UserModel) Encrypt() error {
-	u.Password, err := auth.Encrypt(u.Password)
-
-	return err
-}
-
-// Validate 对字段进行验证
-func (u *UserModel) Validate() error {
-	validate := validator.New()
-
-	return validate.Struct(u)
-}

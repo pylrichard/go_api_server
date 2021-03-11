@@ -48,7 +48,7 @@ func InitDockerDB() *gorm.DB {
 
 // Init 初始化数据库连接
 func (db *Database) Init() {
-	DB = *Database {
+	DB = &Database {
 		Self:	InitSelfDB(),
 		Docker:	InitDockerDB(),
 	}

@@ -6,7 +6,7 @@ import (
 
 // Encrypt 使用bcrypt进行加密
 func Encrypt(src string) (string, error) {
-	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(source), bcrypt.DefaultCost)
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(src), bcrypt.DefaultCost)
 
 	return string(hashedBytes), err
 }

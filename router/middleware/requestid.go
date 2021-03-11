@@ -7,7 +7,7 @@ import (
 
 // RequestID 从请求头中获取X-Request-Id
 func RequestID() gin.HandlerFunc {
-	return func(g *gin.Context) {
+	return func(c *gin.Context) {
 		// Check for incoming header, use it if exist
 		requestID := c.Request.Header.Get("X-Request-Id")
 		// Create request id with UUID4

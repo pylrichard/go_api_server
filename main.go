@@ -25,6 +25,16 @@ var (
 	version = pflag.BoolP("version", "v", false, "show version info")
 )
 
+// @title tiny_http_server example api
+// @version 1.0
+// @description tiny_http_server
+
+// @contact.name pyl
+// @contact.url http://www.swagger.io/support
+// @contact.email pylrichard@qq.com
+
+// @host localhost:8080
+// @BasePath /v1
 func main() {
 	pflag.Parse()
 

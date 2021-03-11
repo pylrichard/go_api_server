@@ -22,7 +22,7 @@ type Context struct {
 }
 
 // secretFunc validates the secret format
-func secretFunc(secret string) jwt.KeyFunc {
+func secretFunc(secret string) jwt.Keyfunc {
 	return func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
@@ -73,13 +73,13 @@ func Sign(gctx *gin.Context, c Context, secret string) (tokenString string, err 
 	}
 	// The token content
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims {
-		"id":        c.ID
+		"id":        c.ID,
 		"user_name": c.UserName,
 		"nbf":       time.Now().Unix(),
 		"iat":       time.Now().Unix(),
 	})
 	// Sign the token with the specified secret
-	tokenString, err = token.SignedString([](secret))
+	tokenString, err = token.SignedString([]byte(secret))
 
-	retun
+	return
 }
